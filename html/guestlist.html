@@ -1,0 +1,41 @@
+{%extends "layout.html" %}
+{% block title %}Guest List{% endblock %}
+{% block content %} 
+
+<div class="container mt-3">
+    <h2 class="text-center">Guests List</h2>    
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Guest Name</th>
+          <th>Mobile</th>
+          <th>Guest Id</th>
+          <th>Address</th>
+          <th>Check in Date</th>
+          <th>Check out Date</th>
+          <th>Number of Rooms</th>
+          <th>Room Type</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for guest in guestdata %}
+            <tr>
+            <td>{{loop.index}}</td>
+            <td>{{guest.name}}</td>
+            <td>{{guest.mobile}}</td>
+            <td>{{guest.id}}</td>
+            <td>{{guest.address}}</td>
+            <td>{{guest.check_in}}</td>
+            <td>{{guest.check_out}}</td>
+            <td>{{guest.number_of_rooms}}</td>
+            <td>{{getroomtype(guest.room_type)}}</td>
+            <td>€ {{guest.price}}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+{% endblock %}

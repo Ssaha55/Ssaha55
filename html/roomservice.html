@@ -1,0 +1,195 @@
+{%extends "layout.html" %}
+{% block title %}Room Service{% endblock %}
+{% block content %} 
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function myfunc()
+    {
+        var guest_id = $("#guest_id").val();
+        $.post(
+            '/verifyguestid',
+            'guestid='+guest_id,
+            function(response)
+            {
+                $("#guest_name").val(response.name);
+                $("#guestdiv").show();
+            }
+        );
+    }
+    function generatebill()
+    {
+        var beverage_txt = $("#beverages").find("option:selected").text();
+        var beverage_price = $("#beverages").val();
+        var soup_txt = $("#soups").find("option:selected").text();
+        var soup_price = $("#soups").val();
+        var main_course_txt = $("#main_course").find("option:selected").text();
+        var main_course_price = $("#main_course").val();
+        var roti_txt = $("#roti").find("option:selected").text();
+        var roti_price = $("#roti").val();
+        var rice_txt = $("#rice").find("option:selected").text();
+        var rice_price = $("#rice").val();
+        var icecream_txt = $("#icecream").find("option:selected").text();
+        var icecream_price = $("#icecream").val();
+        if(beverage_txt == "Select Beverage")
+        {
+            beverage_txt = "";
+            beverage_price = 0;
+        }
+        if(soup_txt == "Select Soup")
+        {
+            soup_txt = "";
+            soup_price = 0;
+        }
+        if(main_course_txt == "Select Main Course")
+        {
+            main_course_txt = "";
+            main_course_price = 0;
+        }
+        if(roti_txt == "Select Roti")
+        {
+            roti_txt = "";
+            roti_price = 0;
+        }
+        if(rice_txt == "Select Rice")
+        {
+            rice_txt = "";
+            rice_price = 0;
+        }
+        if(icecream_txt == "Select Ice Cream")
+        {
+            icecream_txt = "";
+            icecream_price = 0;
+        }
+        $("#bill_beverage").html(beverage_txt + " - " +'&#128;'+beverage_price);
+        $("#bill_soup").html(soup_txt + " - " +'&#128;'+soup_price);
+        $("#bill_main_course").html(main_course_txt + " - " +'&#128;'+main_course_price);
+        $("#bill_roti").html(roti_txt + " - " +'&#128;'+roti_price);
+        $("#bill_rice").html(rice_txt + " - " +'&#128;'+rice_price);
+        $("#bill_icecream").html(icecream_txt + " - " +'&#128;'+icecream_price);
+        var total_price = parseInt(beverage_price) + parseInt(soup_price) + parseInt(main_course_price) + parseInt(roti_price) + parseInt(rice_price) + parseInt(icecream_price);
+        $("#bill_total").html('&#128;'+total_price);
+        $("#bill_table").show();
+    }
+</script>
+<div class="container">
+    <h2 class="text-center">Room Service</h2>
+    <form>
+        <div class="form-group">
+            <label>Enter Guest Id:</label>
+            <div class="row">
+                <div class="col-md-6"><input type="text" class="form-control" name="guest_id" id="guest_id" placeholder="Enter Guest Id"></div>
+                <div class="col-md-6"><button class="btn btn-primary" type="button" onclick="myfunc()">Verify Guest ID</button></div>
+            </div>
+        </div><br>
+        <div class="form-group" style="display:none;" id="guestdiv">
+            <label>Guest Name:</label>
+            <input type="text" class="form-control" id="guest_name" readonly>
+        </div><br>
+        <div class="form-group">
+            <label>Beverages</label>
+            <select class="form-control" name="beverages" id="beverages">
+                <option>Select Beverage</option>
+                <option value="20">Regular Tea</option>
+                <option value="25">Masala Tea</option>
+                <option value="25">Coffee</option>
+                <option value="30">Bread Butter</option>
+                <option value="30">Bread Jam</option>
+                <option value="50">Veg. Sandwich</option>
+                <option value="50">Veg. Toast Sandwich</option>
+                <option value="70">Cheese Toast Sandwich </option>
+                <option value="70">Grilled Sandwich</option>
+            </select>
+        </div><br>
+        <div class="form-group">
+            <label>Soups</label>
+            <select class="form-control" name="soups" id="soups">
+                <option>Select Soup</option>
+                <option value="110">Tomato Soup</option>
+                <option value="110">Hot & Sour</option>
+                <option value="110">Veg. Noodle Soup</option>
+                <option value="110">Sweet Corn</option>
+                <option value="110">Veg. Munchow</option>
+            </select>
+        </div><br>
+        <div class="form-group">
+            <label>Main Course</label>
+            <select class="form-control" name="main_course" id="main_course">
+                <option>Select Main Course</option>
+                <option value="110">Shahi Paneer</option>
+                <option value="110">Kadai Paneer</option>
+                <option value="120">Handi Paneer</option>
+                <option value="120">Palak Paneer</option>
+                <option value="140">Chilli Paneer</option>
+                <option value="140">Matar Mushroom</option>
+                <option value="160">Mix Veg</option>
+                <option value="160">Jeera Aloo</option>
+                <option value="180">Malai Kofta</option>
+                <option value="180">Aloo Matar</option>
+                <option value="180">Dal Fry</option>
+                <option value="200">Dal Makhani</option>
+                <option value="200">Dal Tadka</option>
+            </select>
+        </div><br>
+        <div class="form-group">
+            <label>Roti</label>
+            <select class="form-control" name="roti" id="roti">
+                <option>Select Roti</option>
+                <option value="15">Plain Roti</option>
+                <option value="15">Butter Roti</option>
+                <option value="20">Tandoori Roti</option>
+                <option value="20">Butter Naan</option>
+            </select>
+        </div><br>
+        <div class="form-group">
+            <label>Rice</label>
+            <select class="form-control" id="rice">
+                <option>Select Rice</option>
+                <option value="90">Plain Rice</option>
+                <option value="90">Jeera Rice</option>
+                <option value="110">Veg Plao</option>
+                <option value="90">Peas Pulao</option>
+            </select>
+        </div><br>
+        <div class="form-group">
+            <label>Ice Cream</label>
+            <select class="form-control" id="icecream">
+                <option>Select Ice Cream</option>
+                <option value="60">Vanilla</option>
+                <option value="60">Butterscotch</option>
+                <option value="60">Chocolate</option>
+                <option value="60">Strawberry</option>
+            </select>
+        </div><br>
+        <button class="btn btn-success" type="button" onclick="generatebill()">Generate Bill</button>
+    </form><br>
+
+    <table class="table table-bordered" style="display:none;" id="bill_table">
+        <thead>
+          <tr>
+            <th>Beverages</th>
+            <th>Soups</th>
+            <th>Main Course</th>
+            <th>Roti</th>
+            <th>Rice</th>
+            <th>Ice Cream</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="bill_beverage"></td>
+            <td id="bill_soup"></td>
+            <td id="bill_main_course"></td>
+            <td id="bill_roti"></td>
+            <td id="bill_rice"></td>
+            <td id="bill_icecream"></td>
+            <td id="bill_total"></td>
+          </tr>
+        </tbody>
+      </table>
+
+</div>
+
+{% endblock %}
